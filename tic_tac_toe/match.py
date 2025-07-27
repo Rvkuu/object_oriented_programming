@@ -1,12 +1,12 @@
 from table import Table
-from option import Option
+from player import HumanPlayer
 
 class Match:
     def __init__(self, player1_name: str, player2_name: str):
         self.table = Table()
         self.players = [
-            {'name': player1_name, 'option': Option('X')},
-            {'name': player2_name, 'option': Option('O')}
+            HumanPlayer(),
+            HumanPlayer()
         ]
         self.current_turn = 0  # 0 or 1
 
@@ -15,11 +15,11 @@ class Match:
 
     def play_turn(self, row: int, col: int) -> str:
         player = self.players[self.current_turn]
-        symbol = str(player['option'])
+        symbol = player.get_symbol()
 
         if self.table.set_cell(row, col, symbol):
             if self.table.check_winner(symbol):
-                return f"{player['name']} wins!"
+                return f"{player.get_name()} wins!"
             elif self.table.is_full():
                 return "It's a draw!"
             else:
@@ -32,4 +32,4 @@ class Match:
         self.table.display()
 
     def current_player(self) -> str:
-        return self.players[self.current_turn]['name']
+        return self.players[self.current_turn].get_name()
