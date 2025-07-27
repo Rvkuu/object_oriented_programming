@@ -5,8 +5,8 @@ class Match:
     def __init__(self, player1_name: str, player2_name: str):
         self.table = Table()
         self.players = [
-            HumanPlayer(),
-            HumanPlayer()
+            HumanPlayer(player1_name, 'X'),
+            HumanPlayer(player2_name, 'O')
         ]
         self.current_turn = 0  # 0 or 1
 
