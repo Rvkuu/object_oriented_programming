@@ -1,35 +1,32 @@
-from table import Table
-from player import HumanPlayer
+from board import Board
+from player import BasePlayer
 
 class Match:
-    def __init__(self, player1_name: str, player2_name: str):
-        self.table = Table()
-        self.players = [
-            HumanPlayer(player1_name, 'X'),
-            HumanPlayer(player2_name, 'O')
-        ]
-        self.current_turn = 0  # 0 or 1
+    def __init__(self, player1: BasePlayer, player2: BasePlayer):
+        self.board = Board()
+        self.players = [player1, player2]  # Ensure this is a list
+        self.current_turn = 0
 
-    def switch_turn(self):
-        self.current_turn = 1 - self.current_turn
+    def play(self):
+        print("\nWelcome to Tic Tac Toe!")
+        self.board.display()
 
-    def play_turn(self, row: int, col: int) -> str:
-        player = self.players[self.current_turn]
-        symbol = player.get_symbol()
+        while True:
+            current_player = self.players[self.current_turn]
+            row, col = current_player.make_move(self.board)
 
-        if self.table.set_cell(row, col, symbol):
-            if self.table.check_winner(symbol):
-                return f"{player.get_name()} wins!"
-            elif self.table.is_full():
-                return "It's a draw!"
-            else:
-                self.switch_turn()
-                return "Continue"
-        else:
-            return "Invalid move. Try another cell."
+            if not self.board.update_cell(row, col, current_player.symbol):
+                print("Cell already taken. Try again.")
+                continue
 
-    def display_table(self):
-        self.table.display()
+            self.board.display()
 
-    def current_player(self) -> str:
-        return self.players[self.current_turn].get_name()
+            if self.board.check_winner(current_player.symbol):
+                print(f"{current_player.name} wins!")
+                break
+
+            if self.board.is_full():
+                print("It's a draw!")
+                break
+
+            self.current_turn = 1 - self.current_turn

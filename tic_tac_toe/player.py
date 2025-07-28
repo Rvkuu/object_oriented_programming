@@ -1,16 +1,32 @@
-from option import Option
+from abc import ABC, abstractmethod
+import random
 
-class Player:
+class BasePlayer(ABC):
     def __init__(self, name: str, symbol: str):
         self.name = name
-        self.option = Option(symbol)
+        self.symbol = symbol
 
-    def get_symbol(self) -> str:
-        return str(self.option)
+    @abstractmethod
+    def make_move(self, board):
+        pass
 
-    def get_name(self) -> str:
-        return self.name
 
-class HumanPlayer(Player):
-    # Placeholder for future extension like input gathering
-    pass
+class HumanPlayer(BasePlayer):
+    def make_move(self, board):
+        while True:
+            try:
+                row = int(input(f"{self.name} ({self.symbol}) - Enter row (0-2): "))
+                col = int(input(f"{self.name} ({self.symbol}) - Enter col (0-2): "))
+                if 0 <= row <= 2 and 0 <= col <= 2:
+                    return row, col
+                else:
+                    print("Invalid input. Try 0-2.")
+            except ValueError:
+                print("Invalid input. Please enter numbers.")
+
+
+class AIPlayer(BasePlayer):
+    def make_move(self, board):
+        print(f"{self.name} ({self.symbol}) is making a move...")
+        available = [(r, c) for r in range(3) for c in range(3) if board.grid[r][c] == ' ']
+        return random.choice(available)
