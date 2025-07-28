@@ -1,49 +1,38 @@
-from board import Board
-from player import BasePlayer
-
-class Match:
-    def __init__(self, player1: BasePlayer, player2: BasePlayer):
-        self.board = Board()
-        self.players = [player1, player2]  # Ensure this is a list
-        self.current_turn = 0
-
-    def play(self):
-        print("\nWelcome to Tic Tac Toe!")
-
+from table import Table
 from player import Player
 
 class Match:
-    def __init__(self, player1_name, player2_name):
-        self.board = Board()
-        self.players = [
-            Player(player1_name, 'X'),
-            Player(player2_name, 'O')
-        ]
-        self.current_turn = 0
+    def __init__(self, player1: Player, player2: Player):
+        self.table = Table()
+        self.players = [player1, player2]
+        self.current_index = 0
+
+    def switch_turn(self):
+        self.current_index = 1 - self.current_index
 
     def play(self):
-        print("Welcome to Tic Tac Toe!")
-        self.board.display()
+        print("🎮 Welcome to Tic Tac Toe!")
+        self.table.display()
 
         while True:
-            current_player = self.players[self.current_turn]
-            row, col = current_player.make_move(self.board)
-            row, col = current_player.make_move()
+            current_player = self.players[self.current_index]
+            print(f"{current_player.name}'s turn ({current_player.symbol})")
+            row, col = current_player.make_move(self.table)
 
-            if not self.board.update_cell(row, col, current_player.symbol):
-                print("Cell already taken. Try again.")
+            try:
+                self.table.update_cell(row, col, current_player.symbol)
+            except ValueError as ve:
+                print(ve)
                 continue
 
-            self.board.display()
+            self.table.display()
 
-            if self.board.check_winner(current_player.symbol):
-                print(f"{current_player.name} wins!")
+            if self.table.check_winner(current_player.symbol):
                 print(f"{current_player.name} wins!")
                 break
 
-            if self.board.is_full():
+            if self.table.is_full():
                 print("It's a draw!")
                 break
 
-            self.current_turn = 1 - self.current_turn
-        print("Game over!")
+            self.switch_turn()

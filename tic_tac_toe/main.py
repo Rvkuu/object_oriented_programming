@@ -1,4 +1,4 @@
-from player import HumanPlayer, AIPlayer
+from player import HumanPlayer, RandomAIPlayer
 from match import Match
 
 # Mapping 1-9 to (row, col)
@@ -18,23 +18,26 @@ def main():
     -----------
      7 | 8 | 9
     """)
-    print("Welcome to Tic Tac Toe")
-    mode = input("Play against (1) Human or (2) AI? ").strip()
+    print("Welcome to Tic Tac Toe!")
+    mode = ""
+    while mode not in ("1", "2"):
+        print("Select game mode:")
+        print("1. Human vs Human")
+        print("2. Human vs Computer")
+        mode = input("Enter 1 or 2: ")
 
-    name1 = input("Enter Player 1 name: ")
-    player1 = HumanPlayer(name1, 'X')
+    player1_name = input("Enter Player 1 name: ")
+    player1 = HumanPlayer(player1_name, 'X')
 
-    if mode == '1':
-        name2 = input("Enter Player 2 name: ")
-        player2 = HumanPlayer(name2, 'O')
+    if mode == "1":
+        player2_name = input("Enter Player 2 name: ")
+        player2 = HumanPlayer(player2_name, 'O')
     else:
-        player2 = AIPlayer("Computer", 'O')
+        player2 = RandomAIPlayer("Computer", 'O')
 
-    player1 = input("Enter Player 1 name: ")
-    player2 = input("Enter Player 2 name: ")
-
-    match = Match(player1, player2)
-    match.play()
+    game = Match(player1, player2)
+    game.play()
 
 if __name__ == "__main__":
     main()
+    
