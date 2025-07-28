@@ -11,7 +11,7 @@ class Match:
         self.current_index = 1 - self.current_index
 
     def play(self):
-        print("🎮 Welcome to Tic Tac Toe!")
+        print("Welcome to Tic Tac Toe!")
         self.table.display()
 
         while True:
@@ -36,3 +36,4 @@ class Match:
                 break
 
             self.switch_turn()
+            
