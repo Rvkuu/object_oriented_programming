@@ -45,7 +45,7 @@ class Match:
 <<<<<<< HEAD
                 print(f"{current_player.name} wins!")
 =======
-                print(f"🎉 {current_player.name} wins!")
+                print(f"{current_player.name} wins!")
 >>>>>>> 12caa94c6440af0e7f0ca3a0810510689855c33d
                 break
 
