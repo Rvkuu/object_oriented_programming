@@ -18,6 +18,7 @@ def main():
     -----------
      7 | 8 | 9
     """)
+<<<<<<< HEAD
     print("Welcome to Tic Tac Toe")
     mode = input("Play against (1) Human or (2) AI? ").strip()
 
@@ -30,6 +31,11 @@ def main():
     else:
         player2 = AIPlayer("Computer", 'O')
 
+=======
+    player1 = input("Enter Player 1 name: ")
+    player2 = input("Enter Player 2 name: ")
+
+>>>>>>> 12caa94c6440af0e7f0ca3a0810510689855c33d
     match = Match(player1, player2)
     match.play()
 
