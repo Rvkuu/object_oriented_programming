@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from abc import ABC, abstractmethod
 import random
 
@@ -31,7 +30,7 @@ class AIPlayer(BasePlayer):
         print(f"{self.name} ({self.symbol}) is making a move...")
         available = [(r, c) for r in range(3) for c in range(3) if board.grid[r][c] == ' ']
         return random.choice(available)
-=======
+
 class Player:
     def __init__(self, name, symbol):
         self.name = name
@@ -48,4 +47,3 @@ class Player:
                     print("Invalid input. Please enter numbers between 0 and 2.")
             except ValueError:
                 print("Invalid input. Please enter valid numbers.")
->>>>>>> 12caa94c6440af0e7f0ca3a0810510689855c33d
