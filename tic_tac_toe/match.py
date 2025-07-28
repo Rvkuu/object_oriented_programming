@@ -8,7 +8,11 @@ class Match:
         self.players = [player1, player2]
         self.current_index = 0  # Index to track whose turn it is
 
+
     def __switch_turn(self):
+
+    def switch_turn(self):
+
         # Switch to the other player's turn
         self.current_index = 1 - self.current_index
 
