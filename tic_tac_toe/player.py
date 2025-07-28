@@ -11,15 +11,12 @@ class Player(ABC):
     # Example implementation of make_move
     # This method should be overridden by subclasses
     def make_move(self, table):
-<<<<<<< HEAD
         # Example implementation
         row = int(input("Enter row: "))
         col = int(input("Enter column: "))
         return (row, col)
-=======
         # Method to be implemented by subclasses for making a move
         pass
->>>>>>> 3509f4f5bcc50eaa6494bdb6356dd4a7a901b83c
 
 # Human player class
 class HumanPlayer(Player):
