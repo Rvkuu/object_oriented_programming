@@ -1,50 +1,64 @@
 from player import HumanPlayer, RandomAIPlayer
 from match import Match
+from board import Board
+from renderer import ConsoleRenderer
+from input_handler import ConsoleInputHandler
 
-# Mapping numbers 1-9 to (row, col) positions on the board
-position_map = {
-    1: (0, 0), 2: (0, 1), 3: (0, 2),
-    4: (1, 0), 5: (1, 1), 6: (1, 2),
-    7: (2, 0), 8: (2, 1), 9: (2, 2)
-}
-
+# --- Main game setup ---
 def main():
-    # Display welcome message and board layout
-    print("Welcome to Tic Tac Toe!")
-    print("Choose positions using numbers 1–9:")
-    print("""
-     1 | 2 | 3
-    -----------
-     4 | 5 | 6
-    -----------
-     7 | 8 | 9
-    """)
-    print("Welcome to Tic Tac Toe!")
+    renderer = ConsoleRenderer()
+    input_handler = ConsoleInputHandler()
 
-    # Prompt user to select game mode
+    renderer.show_message("Welcome to Tic Tac Toe!")
+
+    # --- Choose board size ---
+    size = 0
+    while size < 3:
+        try:
+            size = int(input_handler.get_input("Enter board size (minimum 3): "))
+            if size < 3:
+                renderer.show_message("Board size must be at least 3.")
+        except ValueError:
+            renderer.show_message("Please enter a valid number.")
+
+    # --- Show sample layout (only for 3x3, otherwise generic message) ---
+    if size == 3:
+        renderer.show_message("Choose positions using numbers 1–9:")
+        renderer.show_message("""
+         1 | 2 | 3
+        -----------
+         4 | 5 | 6
+        -----------
+         7 | 8 | 9
+        """)
+    else:
+        renderer.show_message(f"You selected a {size}x{size} board.")
+
+    # --- Choose game mode ---
     mode = ""
     while mode not in ("1", "2"):
-        print("Select game mode:")
-        print("1. Human vs Human")
-        print("2. Human vs Computer")
-        mode = input("Enter 1 or 2: ")
+        renderer.show_message("Select game mode:")
+        renderer.show_message("1. Human vs Human")
+        renderer.show_message("2. Human vs Computer")
+        mode = input_handler.get_input("Enter 1 or 2: ")
 
-    # Get Player 1's name and create HumanPlayer
-    player1_name = input("Enter Player 1 name: ")
-    player1 = HumanPlayer(player1_name, 'X')
+    # --- Player 1 ---
+    player1_name = input_handler.get_input("Enter Player 1 name: ")
+    player1 = HumanPlayer(player1_name, 'X', input_handler)
 
-    # Get Player 2's name or create AI player based on mode
+    # --- Player 2 ---
     if mode == "1":
-        player2_name = input("Enter Player 2 name: ")
-        player2 = HumanPlayer(player2_name, 'O')
+        player2_name = input_handler.get_input("Enter Player 2 name: ")
+        player2 = HumanPlayer(player2_name, 'O', input_handler)
     else:
         player2 = RandomAIPlayer("Computer", 'O')
 
-    # Create Match object and start the game
-    game = Match(player1, player2)
+    # --- Start match ---
+    board = Board(size=size)
+    game = Match(board, player1, player2, renderer)
     game.play()
 
-# Run the main function if this file is executed directly
+
 if __name__ == "__main__":
     main()
     
